@@ -31,7 +31,7 @@ class HomePage extends StatelessWidget {
             ElevatedButton(
                 key: const Key('ButtonHomeDetail'),
                 onPressed: () {
-                  Get.to(() => const DetailPage(
+                  Get.to(() => const InicioPage(
                         key: Key('DetailPage'),
                       ));
                 },
