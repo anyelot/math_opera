@@ -26,6 +26,9 @@ class _HomePageState extends State<HomePage> {
   int num1 = 0;
   int num2 = 0;
   Random random = Random();
+  int currentLevel = 0;
+  int operationsCount = 0;
+  int totalQuestions = 0;
 
   @override
   void initState() {
@@ -34,8 +37,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   void generateRandomNumbers() {
-    num1 = random.nextInt(100); // Generar un número aleatorio del 0 al 99
-    num2 = random.nextInt(100); // Generar otro número aleatorio del 0 al 99
+    int numDigits = currentLevel + 2; // Número de cifras para ambos números
+    int maxNumber = (pow(10, numDigits) - 1).toInt();
+    num1 = random.nextInt(maxNumber ~/ 10); // Limita el rango para dos números de igual cantidad de cifras
+    num2 = random.nextInt(maxNumber ~/ 10);
   }
 
   final List<String> buttons = [
@@ -161,24 +166,41 @@ class _HomePageState extends State<HomePage> {
   }
 
   void equalPressed() {
-  int userResult = -1;
-  try {
-    userResult = int.parse(userInput);
-  } catch (e) {
-    // En caso de excepción, userResult se mantiene en -1
+    int userResult = -1;
+    try {
+      userResult = int.parse(userInput);
+    } catch (e) {
+      // En caso de excepción, userResult se mantiene en -1
+    }
+
+    if (userResult != -1 && userResult == num1 + num2) {
+      setState(() {
+        answer = 'Correcto!';
+      });
+    } else {
+      setState(() {
+        answer = 'Incorrecto, la respuesta es ${num1 + num2}';
+      });
+    }
+
+    operationsCount++;
+    totalQuestions++;
+
+    if (operationsCount >= 4) {
+      // Avanzar al siguiente conjunto de preguntas
+      currentLevel++;
+      operationsCount = 0;
+    }
+
+    if (currentLevel > 3) {
+      // Reiniciar el juego
+      currentLevel = 0;
+      totalQuestions = 0;
+    }
+
+    generateRandomNumbers();
+    userInput = '';
   }
-  if (userResult != -1 && userResult == num1 + num2) {
-    setState(() {
-      answer = 'Correcto!';
-    });
-  } else {
-    setState(() {
-      answer = 'Incorrecto, la respuesta es ${num1 + num2}';
-    });
-  }
-  generateRandomNumbers();
-  userInput = '';
-}
 }
 
 class MyButton extends StatelessWidget {
