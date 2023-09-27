@@ -15,8 +15,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _userController = TextEditingController();
-  final _cursoController = TextEditingController();
-  final _colegioController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

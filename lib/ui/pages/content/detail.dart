@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:math_opera/inter/keyboard.dart';
+import 'package:math_opera/ui/controller/auth.dart';
 import 'package:math_opera/ui/pages/content/rcontainer.dart';
 
 class InicioPage extends StatefulWidget {
