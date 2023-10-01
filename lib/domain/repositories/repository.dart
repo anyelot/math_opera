@@ -1,5 +1,5 @@
-import '../../ui/user_data/auth_data.dart';
-import '../../ui/user_data/user_data.dart';
+import '../../data/user_data/auth_data.dart';
+import '../../data/user_data/user_data.dart';
 import '../model_data/dataset.dart';
 
 class Repository {
