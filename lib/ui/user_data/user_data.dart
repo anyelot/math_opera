@@ -1,10 +1,11 @@
 import 'dart:convert';
-import 'package:loggy/loggy.dart';
-import 'package:math_opera/ui/domain/user.dart';
+
 import 'package:http/http.dart' as http;
+import 'package:loggy/loggy.dart';
+import 'package:math_opera/domain/model_data/dataset.dart';
 
 class UserDataSource {
-  final String apiKey = 'tVlFaH';
+  final String apiKey = '';
 
   Future<List<User>> getUsers() async {
     List<User> users = [];
@@ -99,6 +100,26 @@ class UserDataSource {
     } else {
       logError("Got error code ${response.statusCode}");
       return Future.error('Error code ${response.statusCode}');
+    }
+  }
+
+  Future<bool> saveScore(Session sesion) async {
+    logInfo("Web service, Adding user");
+
+    final response = await http.post(
+      Uri.parse("https://retoolapi.dev/$apiKey/data"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(sesion.toJson()),
+    );
+
+    if (response.statusCode == 201) {
+      //logInfo(response.body);
+      return Future.value(true);
+    } else {
+      logError("Got error code ${response.statusCode}");
+      return Future.value(false);
     }
   }
 }

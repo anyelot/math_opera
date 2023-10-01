@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
-import 'package:math_opera/ui/domain/caso_uso.dart';
 import 'package:loggy/loggy.dart';
-import 'package:math_opera/ui/domain/user.dart';
+import 'package:math_opera/domain/caso_uso/user_case.dart';
 
-//interfaz entre la lógica deldel juego (representada por GameUseCase) y la interfaz de usuario (UI).
+import '../../domain/model_data/dataset.dart';
+
 class UserController extends GetxController {
   final RxList<User> _users = <User>[].obs;
   final UserUseCase userUseCase = Get.find();

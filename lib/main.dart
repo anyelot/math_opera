@@ -1,26 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:math_opera/ui/pages/authentication/login.dart';
+import 'package:get/get.dart';
+import 'package:loggy/loggy.dart';
+import 'package:math_opera/domain/caso_uso/auth_case.dart';
+import 'package:math_opera/domain/caso_uso/user_case.dart';
+import 'package:math_opera/domain/repositories/repository.dart';
+import 'package:math_opera/ui/central.dart';
+import 'package:math_opera/ui/controller/auth_controller.dart';
+import 'package:math_opera/ui/controller/game_controller.dart';
+import 'package:math_opera/ui/controller/user_controller.dart';
+import 'package:math_opera/ui/domain/caso_uso/game_case.dart';
 
 void main() {
+  Loggy.initLoggy(
+    logPrinter: const PrettyPrinter(
+      showColors: true,
+    ),
+  );
+
+  Get.put(Repository());
+  Get.put(AuthenticationUseCase());
+  Get.put(UserUseCase());
+  Get.put(AuthenticationController());
+  Get.put(UserController());
+  Get.put(CalculatorUseCase());
+  Get.put(CalculatorController());
+
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-        title: 'MATH_OPERA',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: const LoginScreen(
-          key: Key('Ingreso'),
-          user: "blank",
-        ));
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const Central(),
+    );
   }
 }

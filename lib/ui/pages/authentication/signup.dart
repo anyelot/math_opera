@@ -1,155 +1,171 @@
-import 'dart:convert';
-
-import 'package:math_opera/ui/pages/authentication/login.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
+import 'package:get/get_core/src/get_main.dart';
+import 'package:loggy/loggy.dart';
+import 'package:math_opera/ui/controller/auth_controller.dart';
 
-class SignUpPage extends StatefulWidget {
-  const SignUpPage({Key? key}) : super(key: key);
+class SignUp extends StatefulWidget {
+  const SignUp({super.key});
 
   @override
-  State<SignUpPage> createState() => _SignUpPageState();
+  State<SignUp> createState() => _FirebaseSignUpState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _FirebaseSignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
-  final _userController = TextEditingController();
-  final _nacimientoController = TextEditingController();
-  final _cursoController = TextEditingController();
-  final _colegioController = TextEditingController();
+  final controllerEmail = TextEditingController(text: 'a@a.com');
+  final controllerPassword = TextEditingController(text: '123456');
+  final controllerSchool = TextEditingController(text: 'abc');
+  final controllerBirthdate = TextEditingController(text: '12/05');
+  final controllerGrade = TextEditingController(text: '5');
+  AuthenticationController authenticationController = Get.find();
 
-  Future<void> sendDataToRetool() async {
-    final url =
-        'https://felipe27th.retool.com/apps/c9db5c48-5d54-11ee-8283-b3ca0a13aa32/Title%20your%20first%20app';
+  _signup(theEmail, thePassword, theSchool, theBirthdate, theGrade) async {
+    try {
+      await authenticationController.signUp(
+          theEmail, thePassword, theSchool, theBirthdate, theGrade);
 
-    final Map<String, dynamic> data = {
-      'usuario': _userController.text,
-      'fecha_nacimiento': _nacimientoController.text,
-      'curso': _cursoController.text,
-      'colegio': _colegioController.text,
-    };
-
-    final response = await http.post(
-      Uri.parse(url),
-      headers: {
-        'Content-Type':
-            'application/json', // Ajusta el tipo de contenido según tus necesidades
-      },
-      body: json.encode(data),
-    );
-
-    if (response.statusCode == 200) {
-      // Los datos se enviaron correctamente a Retool
-      print('Datos enviados con éxito');
-    } else {
-      // Ocurrió un error al enviar los datos
-      print('Error al enviar los datos: ${response.statusCode}');
+      Get.snackbar(
+        "Sign Up",
+        'OK',
+        icon: const Icon(Icons.person, color: Colors.red),
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } catch (err) {
+      logError('SignUp error $err');
+      Get.snackbar(
+        "Sign Up",
+        err.toString(),
+        icon: const Icon(Icons.person, color: Colors.red),
+        snackPosition: SnackPosition.BOTTOM,
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: const Text("Primera vez?"),
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(20.0, 25.0, 20.0, 12.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'Ingresa los siguientes datos',
-                  style: TextStyle(fontSize: 20),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                TextFormField(
-                  key: const Key('TextFormFieldcreauser'),
-                  controller: _userController,
-                  decoration: const InputDecoration(labelText: 'Usuario'),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "Ingresa Usuario Nuevo";
-                    }
-                  },
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                TextFormField(
-                  key: const Key('TextFormFieldcrea'),
-                  controller: _nacimientoController,
-                  decoration:
-                      const InputDecoration(labelText: 'Fecha de nacimiento'),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "Ingresa fecha nacimiento";
-                    }
-                  },
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                TextFormField(
-                  key: const Key('TextFormFieldSignUpCurso'),
-                  controller: _cursoController,
-                  decoration: const InputDecoration(labelText: "Curso"),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "Ingresa grado";
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                TextFormField(
-                  key: const Key('TextFormFieldSignUpColegio'),
-                  controller: _colegioController,
-                  decoration: const InputDecoration(labelText: "Colegio"),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "Ingresa Colegio";
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                OutlinedButton(
-                    key: const Key('ButtonSignUpSubmit'),
-                    onPressed: () {
-                      // this line dismiss the keyboard by taking away the focus of the TextFormField and giving it to an unused
-                      FocusScope.of(context).requestFocus(FocusNode());
-                      final form = _formKey.currentState;
-                      form!.save();
-                      if (form.validate()) {
-                        Get.to(LoginScreen(
-                          key: const Key('LoginScreen'),
-                          user: _userController.text,
-                        ));
-                      } else {
-                        const snackBar = SnackBar(
-                          content: Text('Validation nok'),
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      }
-                    },
-                    child: const Text("Submit")),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+        appBar: AppBar(),
+        body: Center(
+            child: Container(
+                padding: const EdgeInsets.all(20),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          "Sign Up Information",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        TextFormField(
+                          keyboardType: TextInputType.emailAddress,
+                          controller: controllerEmail,
+                          decoration:
+                              const InputDecoration(labelText: "Email address"),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              logError('SignUp validation empty email');
+                              return "Enter email";
+                            } else if (!value.contains('@')) {
+                              logError('SignUp validation invalid email');
+                              return "Enter valid email address";
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        TextFormField(
+                          keyboardType: TextInputType.text,
+                          controller: controllerSchool,
+                          decoration:
+                              const InputDecoration(labelText: "School"),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              logError('SignUp validation empty school');
+                              return "Enter school";
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        TextFormField(
+                          keyboardType: TextInputType.datetime,
+                          controller: controllerBirthdate,
+                          decoration:
+                              const InputDecoration(labelText: "birthdate"),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              logError('SignUp validation empty birthdate');
+                              return "Enter email";
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        TextFormField(
+                          keyboardType: TextInputType.number,
+                          controller: controllerGrade,
+                          decoration: const InputDecoration(labelText: "Grade"),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              logError('SignUp validation empty grade');
+                              return "Enter grade";
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        TextFormField(
+                          controller: controllerPassword,
+                          decoration:
+                              const InputDecoration(labelText: "Password"),
+                          keyboardType: TextInputType.number,
+                          obscureText: true,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Enter password";
+                            } else if (value.length < 6) {
+                              return "Password should have at least 6 characters";
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        TextButton(
+                            onPressed: () async {
+                              final form = _formKey.currentState;
+                              form!.save();
+                              // this line dismiss the keyboard by taking away the focus of the TextFormField and giving it to an unused
+                              FocusScope.of(context).requestFocus(FocusNode());
+                              if (_formKey.currentState!.validate()) {
+                                logInfo('SignUp validation form ok');
+                                await _signup(
+                                    controllerEmail.text,
+                                    controllerPassword.text,
+                                    controllerSchool.text,
+                                    controllerBirthdate.text,
+                                    controllerGrade.text);
+                              } else {
+                                logError('SignUp validation form nok');
+                              }
+                            },
+                            child: const Text("Submit")),
+                      ]),
+                ))));
   }
 }

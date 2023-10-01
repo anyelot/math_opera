@@ -15,7 +15,7 @@ class ReturnPage extends StatelessWidget {
           IconButton(
               key: const Key('ButtonHomeLogOff'),
               onPressed: () {
-                Get.off(() => LoginScreen(
+                Get.off(() => (
                       key: const Key('LoginScreen'),
                       user: loggedUser,
                     ));
@@ -31,9 +31,7 @@ class ReturnPage extends StatelessWidget {
             ElevatedButton(
                 key: const Key('ButtonHomeDetail'),
                 onPressed: () {
-                  Get.to(() => const InicioPage(
-                        key: Key('DetailPage'),
-                      ));
+                  Get.to(() => const (key: Key('DetailPage'),));
                 },
                 child: const Text("Inicio")),
           ],

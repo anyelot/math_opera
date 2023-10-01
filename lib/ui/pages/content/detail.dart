@@ -1,60 +1,88 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:math_opera/inter/keyboard.dart';
-import 'package:math_opera/ui/controller/auth.dart';
-import 'package:math_opera/ui/pages/content/rcontainer.dart';
 
-class InicioPage extends StatefulWidget {
-  const InicioPage({super.key});
+import '../../../domain/model_data/dataset.dart';
+import '../../controller/user_controller.dart';
+
+class EditUserPage extends StatefulWidget {
+  final String token;
+  const EditUserPage({super.key, required this.token});
 
   @override
-  State<InicioPage> createState() => _InicioPageState();
+  State<EditUserPage> createState() => _EditUserPageState();
 }
 
-class _InicioPageState extends State<InicioPage> {
-  //AuthenticationController authenticationController = Get.find();
+class _EditUserPageState extends State<EditUserPage> {
+  final controllerschool = TextEditingController();
+  final controllerbirthdate = TextEditingController();
+  final controllergrade = TextEditingController();
+  String em = "";
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveContainer(
+    UserController userController = Get.find();
+    controllerschool.text = "user.school";
+    controllerbirthdate.text = "user.birthdate";
+    controllergrade.text = "user.email";
+    return Scaffold(
       appBar: AppBar(
-        title: const Text('Math_Opera'),
-        actions: [
-          IconButton(
-            key: const Key("home_page_retun_button"),
-            onPressed: () async {
-              //await authenticationController.logOut();
-            },
-            icon: const Icon(Icons.logout),
-          )
-        ],
+        title: Text("${"user.school"} ${"user.birthdate"}"),
       ),
-      children: [
-        FilledButton(
-          key: const Key("home_page_play_button"),
-          onPressed: () {
-            Get.to(() => MyKeyboard());
-          },
-          style: const ButtonStyle(
-            backgroundColor: MaterialStatePropertyAll(
-              Colors.blue,
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 20,
             ),
-            padding: MaterialStatePropertyAll(EdgeInsets.fromLTRB(
-              30,
-              15,
-              30,
-              15,
-            )),
-          ),
-          child: const Text(
-            "Iniciar",
-            style: TextStyle(fontSize: 30),
-          ),
+            TextField(
+                controller: controllerschool,
+                decoration: const InputDecoration(
+                  labelText: 'First Name',
+                )),
+            const SizedBox(
+              height: 20,
+            ),
+            TextField(
+                controller: controllerbirthdate,
+                decoration: const InputDecoration(
+                  labelText: 'Last Name',
+                )),
+            const SizedBox(
+              height: 20,
+            ),
+            TextField(
+                controller: controllergrade,
+                keyboardType: TextInputType.emailAddress,
+                decoration: const InputDecoration(
+                  labelText: 'Grade',
+                )),
+            const SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Expanded(
+                      flex: 2,
+                      child: ElevatedButton(
+                          onPressed: () async {
+                            await userController.updateUser(User(
+                                email: em,
+                                grade: controllergrade.text,
+                                school: controllerschool.text,
+                                birthdate: controllerbirthdate.text));
+                            Get.back();
+                          },
+                          child: const Text("Update")))
+                ],
+              ),
+            )
+          ],
         ),
-        const SizedBox(
-          height: 25,
-        ),
-      ],
+      ),
     );
   }
 }
