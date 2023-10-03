@@ -34,11 +34,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Flutter Demo',
+      title: 'Math_Opera',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Central(),
+      home: const Home(),
     );
   }
 }
