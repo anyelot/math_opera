@@ -16,21 +16,21 @@ class CalculatorUseCase {
     int random2;
     switch (difficulty) {
       case 1:
-        random1 = random.nextInt(9) + 1; // Número aleatorio de 1 a 9
-        random2 = random.nextInt(9) + 1; // Número aleatorio de 1 a 9
+        random1 = random.nextInt(900) + 100; 
+        random2 = random.nextInt(900) + 100; 
         break;
       case 2:
-        random1 = random.nextInt(90) + 10; // Número aleatorio de 10 a 99
-        random2 = random.nextInt(9) + 1; // Número aleatorio de 1 a 9
+        random1 = random.nextInt(9000) + 1000; 
+        random2 = random.nextInt(9000) + 1000;
         break;
       case 3:
-        random1 = random.nextInt(90) + 10; // Número aleatorio de 10 a 99
-        random2 = random.nextInt(90) + 10; // Número aleatorio de 10 a 99
+        random1 = random.nextInt(90000) + 10000;
+        random2 = random.nextInt(90000) + 10000;
         break;
       default:
-        // Por defecto, genera números de un dígito
-        random1 = random.nextInt(9) + 1; // Número aleatorio de 0 a 9
-        random2 = random.nextInt(9) + 1; // Número aleatorio de 0 a 9
+        
+        random1 = random.nextInt(90) + 10; 
+        random2 = random.nextInt(90) + 10; 
         break;
     }
     String question = random1 > random2
