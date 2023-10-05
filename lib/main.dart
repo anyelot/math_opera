@@ -4,23 +4,21 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:loggy/loggy.dart';
 import 'package:math_opera/db/some_data_db.dart';
 import 'package:math_opera/domain/caso_uso/auth_case.dart';
+import 'package:math_opera/domain/caso_uso/game_case.dart';
 import 'package:math_opera/domain/caso_uso/user_case.dart';
 import 'package:math_opera/domain/repositories/repository.dart';
 import 'package:math_opera/ui/central.dart';
 import 'package:math_opera/ui/controller/auth_controller.dart';
 import 'package:math_opera/ui/controller/game_controller.dart';
 import 'package:math_opera/ui/controller/user_controller.dart';
-import 'package:math_opera/ui/domain/caso_uso/game_case.dart';
 
-Future<List<Box>> _openBox() async{
+Future<List<Box>> _openBox() async {
   List<Box> boxList = [];
   await Hive.initFlutter();
   Hive.registerAdapter(SomeDataDbAdapter());
   boxList.add(await Hive.openBox('someData'));
   return boxList;
 }
-
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,7 +50,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Home(),
+      home: const Central(),
     );
   }
 }

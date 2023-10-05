@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:math_opera/ui/domain/caso_uso/game_case.dart';
+import 'package:math_opera/domain/caso_uso/game_case.dart';
 
 class CalculatorController extends GetxController {
   var userInput = ''.obs;
