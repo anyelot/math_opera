@@ -25,7 +25,7 @@ class _FirebaseSignUpState extends State<SignUp> {
   
  
   final HiveData hivedata = const HiveData();
-  List<SomeDataDb> someDataDb=[];
+  
   
 
 
