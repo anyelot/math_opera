@@ -17,10 +17,9 @@ class SomeDataDbAdapter extends TypeAdapter<SomeDataDb> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return SomeDataDb(
-      name: fields[0] as String,
       score: fields[1] as int,
-      corrects: fields[2] as String,
-      incorrects: fields[3] as String,
+      corrects: fields[2] as int,
+      incorrects: fields[3] as int,
       email: fields[4] as String,
       password: fields[5] as String,
       school: fields[6] as String,
@@ -32,9 +31,7 @@ class SomeDataDbAdapter extends TypeAdapter<SomeDataDb> {
   @override
   void write(BinaryWriter writer, SomeDataDb obj) {
     writer
-      ..writeByte(9)
-      ..writeByte(0)
-      ..write(obj.name)
+      ..writeByte(8)
       ..writeByte(1)
       ..write(obj.score)
       ..writeByte(2)

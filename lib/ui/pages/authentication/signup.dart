@@ -3,7 +3,10 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:loggy/loggy.dart';
+import 'package:math_opera/db/some_data_db.dart';
 import 'package:math_opera/ui/controller/auth_controller.dart';
+
+import '../../../db/hive_data.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -19,6 +22,24 @@ class _FirebaseSignUpState extends State<SignUp> {
   final controllerSchool = TextEditingController(text: 'abc');
   final controllerBirthdate = TextEditingController(text: '12/05');
   final controllerGrade = TextEditingController(text: '5');
+  
+ 
+  final HiveData hivedata = const HiveData();
+  List<SomeDataDb> someDataDb=[];
+  
+
+
+
+
+@override
+void dispose(){
+  controllerEmail.dispose();
+  controllerPassword.dispose();
+  controllerSchool.dispose();
+  controllerBirthdate.dispose();
+  controllerGrade.dispose();
+  super.dispose();
+  }
   AuthenticationController authenticationController = Get.find();
 
   _signup(theEmail, thePassword, theSchool, theBirthdate, theGrade) async {
@@ -153,15 +174,19 @@ class _FirebaseSignUpState extends State<SignUp> {
                               // this line dismiss the keyboard by taking away the focus of the TextFormField and giving it to an unused
                               FocusScope.of(context).requestFocus(FocusNode());
                               if (_formKey.currentState!.validate()) {
-                                logInfo('SignUp validation form ok');
+                                logInfo('Listo');
                                 await _signup(
                                     controllerEmail.text,
                                     controllerPassword.text,
                                     controllerSchool.text,
                                     controllerBirthdate.text,
                                     controllerGrade.text);
+                                hivedata.saveUser(SomeDataDb(email: controllerEmail.text, password: controllerPassword.text, school: controllerSchool.text, birthdate: controllerBirthdate.text, grade: controllerGrade.text));    
+
+
+
                               } else {
-                                logError('SignUp validation form nok');
+                                logError('Error');
                               }
                             },
                             child: const Text("Submit")),
@@ -169,3 +194,4 @@ class _FirebaseSignUpState extends State<SignUp> {
                 ))));
   }
 }
+

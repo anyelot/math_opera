@@ -3,17 +3,16 @@ part 'some_data_db.g.dart';
 
 @HiveType(typeId: 0)
 class SomeDataDb extends HiveObject {
-  @HiveField(0)
-  String name;
+  
 
   @HiveField(1)
   int score;
 
   @HiveField(2)
-  String corrects;
+  int corrects;
 
   @HiveField(3)
-  String incorrects;
+  int incorrects;
 
   @HiveField(4)
   String email;
@@ -31,13 +30,13 @@ class SomeDataDb extends HiveObject {
   String grade;
 
   SomeDataDb(
-      {required this.name,
-      required this.score,
-      required this.corrects,
-      required this.incorrects,
-      required this.email,
-      required this.password,
-      required this.school,
-      required this.birthdate,
-      required this.grade});
+      {
+       this.score=0,
+       this.corrects=0,
+       this.incorrects=0,
+       this.email='',
+       this.password='',
+       this.school='',
+       this.birthdate='',
+       this.grade=''});
 }

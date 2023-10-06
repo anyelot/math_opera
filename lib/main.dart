@@ -6,6 +6,7 @@ import 'package:math_opera/db/some_data_db.dart';
 import 'package:math_opera/domain/caso_uso/auth_case.dart';
 import 'package:math_opera/domain/caso_uso/user_case.dart';
 import 'package:math_opera/domain/repositories/repository.dart';
+import 'package:math_opera/inter/keyboard.dart';
 import 'package:math_opera/ui/central.dart';
 import 'package:math_opera/ui/controller/auth_controller.dart';
 import 'package:math_opera/ui/controller/game_controller.dart';
@@ -52,7 +53,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Home(),
+      home: const HomePage(),
     );
   }
 }
