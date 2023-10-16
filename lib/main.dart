@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:loggy/loggy.dart';
+import 'package:math_opera/data/user_data/user_data.dart';
 import 'package:math_opera/db/some_data_db.dart';
 import 'package:math_opera/domain/caso_uso/auth_case.dart';
 import 'package:math_opera/domain/caso_uso/game_case.dart';
 import 'package:math_opera/domain/caso_uso/user_case.dart';
 import 'package:math_opera/domain/repositories/repository.dart';
-import 'package:math_opera/inter/keyboard.dart';
-import 'package:math_opera/ui/central.dart';
 import 'package:math_opera/ui/controller/auth_controller.dart';
 import 'package:math_opera/ui/controller/game_controller.dart';
-import 'package:math_opera/ui/controller/user_controller.dart';
+import 'package:math_opera/ui/pages/authentication/login.dart';
+import 'package:math_opera/ui/pages/content/home.dart';
 
 Future<List<Box>> _openBox() async {
   List<Box> boxList = [];
@@ -21,41 +21,38 @@ Future<List<Box>> _openBox() async {
   return boxList;
 }
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await _openBox();
+void main() {
   Loggy.initLoggy(
     logPrinter: const PrettyPrinter(
       showColors: true,
     ),
   );
-
+  Get.put(UserDataSource());
   Get.put(Repository());
   Get.put(AuthenticationUseCase());
   Get.put(UserUseCase());
   Get.put(AuthenticationController());
-  Get.put(UserController());
-  Get.put(CalculatorUseCase());
-  Get.put(CalculatorController());
-
+  Get.put(CasoDificultad());
+  Get.put(NumberController());
+  Get.put(Dificultad());
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    AuthenticationController authenticationController = Get.find();
     return GetMaterialApp(
-      title: 'Math_Opera',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-<<<<<<< HEAD
-      home: const HomePage(),
-=======
-      home: const Central(),
->>>>>>> 1a7a2773af93c652450b4ac95cf123a4f1807374
-    );
+        title: 'Math App',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: Obx(() => authenticationController.isLogged
+            ? HomePage()
+            : const LoginPage()));
   }
 }

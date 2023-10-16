@@ -3,17 +3,16 @@ import '../../data/user_data/user_data.dart';
 import '../model_data/dataset.dart';
 
 class Repository {
-  late AuthenticationDatatasource _authenticationDataSource;
+  late AuthenticationDatasource _authenticationDataSource;
   late UserDataSource _userDatatasource;
   String token = "";
-  String get getToken => token;
 
-  // BASE URL para la API /
-
-  final String _baseUrl = '';
+  // the base url of the API should end without the /
+  final String _baseUrl =
+      "http://ip172-18-0-43-ckfonpksnmng00a21amg-8000.direct.labs.play-with-docker.com/";
 
   Repository() {
-    _authenticationDataSource = AuthenticationDatatasource();
+    _authenticationDataSource = AuthenticationDatasource();
     _userDatatasource = UserDataSource();
   }
 
@@ -22,10 +21,8 @@ class Repository {
     return true;
   }
 
-  Future<bool> signUp(String email, String password, String school,
-          String birthdate, String grade) async =>
-      await _authenticationDataSource.signUp(
-          _baseUrl, email, password, school, birthdate, grade);
+  Future<bool> signUp(String email, String password) async =>
+      await _authenticationDataSource.signUp(_baseUrl, email, password);
 
   Future<bool> logOut() async => await _authenticationDataSource.logOut();
 
@@ -42,7 +39,4 @@ class Repository {
 
   Future<bool> simulateProcess() async =>
       await _userDatatasource.simulateProcess(_baseUrl, token);
-
-  Future<bool> saveScore(Session sesion) async =>
-      await _userDatatasource.saveScore(sesion);
 }

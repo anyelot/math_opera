@@ -1,68 +1,55 @@
-class Session {
-  Session({
-    this.id,
-    required this.score,
-    required this.corrects,
-    required this.incorrects,
-  });
-
-  int? id;
-  int score;
-  List<String> corrects;
-  List<String> incorrects;
-
-  int get getScore => score;
-
-  List<String> get getCorrects => corrects;
-  List<String> get getIncorrects => incorrects;
-
-  factory Session.fromJson(Map<String, dynamic> json) => Session(
-        id: json["id"],
-        score: json["score"] ?? "someScore",
-        corrects: json["corrects"] ?? "someCorrects",
-        incorrects: json["incorrects"] ?? "someincorrects",
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id ?? 0,
-        "score": score,
-        "corrects": corrects,
-        "incorrects": incorrects,
-      };
-}
-
 class User {
   User({
     this.id,
-    required this.school,
-    required this.grade,
-    required this.birthdate,
+    this.firstName,
+    this.lastName,
     required this.email,
+    required this.password,
+    this.birthday,
+    this.grade,
+    this.school,
+    this.score,
   });
 
   int? id;
-  String school;
-  String grade;
-  String birthdate;
+  String? firstName;
+  String? lastName;
   String email;
+  String password;
+  String? birthday;
+  String? grade;
+  String? school;
+  int? score;
 
-  String get info => '$school $grade';
+  String get name => '$firstName $lastName';
 
   String get emailAddress => email;
+  String? get getbirthday => birthday;
+  String? get getgrade => grade;
+  String? get getschool => school;
+  int? get getscore => score;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["id"],
-        school: json["school"] ?? "someschool",
-        grade: json["grade"] ?? "somegrade",
-        birthdate: json["birthdate"] ?? "somebirthdate",
+        firstName: json["firstName"] ?? "somefirstName",
+        lastName: json["lastName"] ?? "someLastName",
         email: json["email"] ?? "someemail",
+        password: json["password"] ?? "somepassword",
+        birthday: json["birthday"] ?? "somebirthday",
+        grade: json["grade"] ?? "somegrade",
+        school: json["school"] ?? "someschool",
+        score: json["score"] ?? 100000,
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id ?? 0,
-        "school": school,
-        "grade": grade,
-        "birthdate": birthdate,
+        "id": id,
+        "firstName": firstName,
+        "lastName": lastName,
         "email": email,
+        "password": password,
+        "birthday": birthday,
+        "grade": grade,
+        "school": school,
+        "score": score,
       };
 }

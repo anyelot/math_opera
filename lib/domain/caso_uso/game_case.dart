@@ -1,72 +1,160 @@
-import 'package:get/get.dart';
 import 'dart:math';
-import '../model_data/dataset.dart';
-import '../repositories/repository.dart';
 
-class CalculatorUseCase {
-  final Repository _repository = Get.find();
-  List<String> corrects = [];
-  List<String> incorrects = [];
-  CalculatorUseCase();
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:math_opera/data/local/localstorage.dart';
+import 'package:math_opera/data/user_data/user_data.dart';
+import 'package:math_opera/domain/model_data/dataset.dart';
+import 'package:math_opera/ui/controller/game_controller.dart';
+import 'package:math_opera/ui/pages/content/home.dart';
+import 'package:math_opera/ui/pages/content/rcontainer.dart';
 
-  String generateRandomNumbers(int difficulty, String op) {
-    final random = Random();
-
-    int random1;
-    int random2;
-    switch (difficulty) {
-      case 1:
-        random1 = random.nextInt(900) + 100; 
-        random2 = random.nextInt(900) + 100; 
-        break;
-      case 2:
-        random1 = random.nextInt(9000) + 1000; 
-        random2 = random.nextInt(9000) + 1000;
-        break;
-      case 3:
-        random1 = random.nextInt(90000) + 10000;
-        random2 = random.nextInt(90000) + 10000;
-        break;
-      default:
-        
-        random1 = random.nextInt(90) + 10; 
-        random2 = random.nextInt(90) + 10; 
-        break;
-    }
-    String question = random1 > random2
-        ? '¿Cuánto es $random1 $op $random2 ?'
-        : '¿Cuánto es $random2 $op $random1 ?';
-    return question;
-  }
-
-  int calculate(String question, String answer, int time) {
-    final q = question.split(' ');
-    final n1 = int.parse(q[2]);
-    final op = q[3];
-    final n2 = int.parse(q[4]);
-    var score = 0;
-    int correct = 0;
-    if (op == '+') {
-      correct = n1 + n2;
-    } else if (op == '-') {
-      correct = n1 - n2;
-    } else if (op == '*') {
-      correct = n1 * n2;
-    }
-
-    if (answer == correct.toString()) {
-      corrects.add('$question=$answer');
-      score = (201 / (time + 1) + 100) ~/ 1;
+class CasoDificultad {
+  final sharedPreferences = LocalPreferences();
+  late NumberController controller = Get.find();
+  final stopwatch = Stopwatch();
+  int _score = 0;
+  int get score => _score;
+  changeScore(int newscore) => _score = newscore;
+  generateCase() {
+    if (score <= 10) {
+      controller.setOp1(Random().nextInt(100));
+      controller.setOp2(Random().nextInt(10));
+      controller.setOperator("/");
+    } else if (score <= 30) {
+      controller.setOp1(Random().nextInt(100));
+      controller.setOp2(Random().nextInt(100));
+      controller.setOperator("*");
+    } else if (score <= 60) {
+      controller.setOp1(Random().nextInt(1000));
+      controller.setOp2(Random().nextInt(100));
+      controller.setOperator("-");
     } else {
-      incorrects.add('$question=$correct you sent $answer');
-      score = -100;
+      controller.setOp1(Random().nextInt(100));
+      controller.setOp2(Random().nextInt(1000));
+      controller.setOperator("+");
     }
-    return score;
+    print((controller.op1 + controller.op2).round());
   }
 
-  void saveScore(int score) {
-    Session sesion =
-        Session(score: score, corrects: corrects, incorrects: incorrects);
-    _repository.saveScore(sesion);
+  updateuserafter(score) async {
+    User user = User(
+        id: await sharedPreferences.retrieveData("id"),
+        email: await sharedPreferences.retrieveData('email'),
+        password: await sharedPreferences.retrieveData('password'),
+        score: score);
+
+    await UserDataSource().updateUser(user);
+  }
+
+  checkOperation() {
+    int newScore = 0;
+    switch (controller.operator) {
+      case "+":
+        if (controller.op1 + controller.op2 == int.parse(controller.result)) {
+          if (controller.cont < 5) {
+            generateCase();
+            controller.cont++;
+          } else {
+            stopwatch.stop();
+            newScore = (stopwatch.elapsed.inSeconds);
+            Get.to(HomePage(
+              key: const Key('HomePage'),
+            ));
+            controller.cont = 0;
+            changeScore(newScore);
+            updateuserafter(score);
+            controller.cont = 0;
+            stopwatch.reset();
+          }
+          controller.resetResult();
+        } else {
+          controller.resetResult();
+        }
+      case "*":
+        if (controller.op1 * controller.op2 == int.parse(controller.result)) {
+          if (controller.cont < 5) {
+            generateCase();
+            controller.cont++;
+          } else {
+            stopwatch.stop();
+            newScore = (stopwatch.elapsed.inSeconds);
+
+            Get.to(HomePage(
+              key: const Key('HomePage'),
+            ));
+            controller.cont = 0;
+            changeScore(newScore);
+            updateuserafter(score);
+            controller.cont = 0;
+            stopwatch.reset();
+          }
+          controller.resetResult();
+        } else {
+          controller.resetResult();
+        }
+      case "-":
+        if (controller.op1 - controller.op2 == int.parse(controller.result)) {
+          if (controller.cont < 5) {
+            generateCase();
+            controller.cont++;
+          } else {
+            stopwatch.stop();
+
+            newScore = (stopwatch.elapsed.inSeconds);
+
+            Get.to(HomePage(
+              key: const Key('HomePage'),
+            ));
+            controller.cont = 0;
+            changeScore(newScore);
+            updateuserafter(score);
+            controller.cont = 0;
+            stopwatch.reset();
+          }
+          controller.resetResult();
+        } else {
+          controller.resetResult();
+        }
+      case "/":
+        if ((controller.op1 / controller.op2).round() ==
+            int.parse(controller.result)) {
+          if (controller.cont < 5) {
+            generateCase();
+            controller.cont++;
+          } else {
+            stopwatch.stop();
+
+            newScore = (stopwatch.elapsed.inSeconds);
+
+            Get.to(HomePage(
+              key: const Key('HomePage'),
+            ));
+            controller.cont = 0;
+            changeScore(newScore);
+            updateuserafter(score);
+            controller.cont = 0;
+            stopwatch.reset();
+          }
+          controller.resetResult();
+        } else {
+          controller.resetResult();
+        }
+      default:
+        null;
+    }
+  }
+}
+
+class Dificultad {
+  final CasoDificultad caso = Get.find();
+
+  casegenerator() {
+    caso.generateCase();
+    caso.stopwatch.start();
+    Get.to(const TestPage(
+      key: Key('TestPage'),
+    ));
   }
 }

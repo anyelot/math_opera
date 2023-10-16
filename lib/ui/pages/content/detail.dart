@@ -1,86 +1,136 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-import '../../../domain/model_data/dataset.dart';
-import '../../controller/user_controller.dart';
+class KeyPad extends StatelessWidget {
+  const KeyPad({
+    super.key,
+    required this.onInputNumber,
+    required this.onClearLastInput,
+    required this.onClearAll,
+    required this.sendInput,
+  });
 
-class EditUserPage extends StatefulWidget {
-  final String token;
-  const EditUserPage({super.key, required this.token});
-
-  @override
-  State<EditUserPage> createState() => _EditUserPageState();
-}
-
-class _EditUserPageState extends State<EditUserPage> {
-  final controllerschool = TextEditingController();
-  final controllerbirthdate = TextEditingController();
-  final controllergrade = TextEditingController();
-  String em = "";
+  final ValueSetter<int> onInputNumber;
+  final VoidCallback onClearLastInput;
+  final VoidCallback onClearAll;
+  final VoidCallback sendInput;
 
   @override
   Widget build(BuildContext context) {
-    UserController userController = Get.find();
-    controllerschool.text = "user.school";
-    controllerbirthdate.text = "user.birthdate";
-    controllergrade.text = "user.email";
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("${"user.school"} ${"user.birthdate"}"),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 20,
-            ),
-            TextField(
-                controller: controllerschool,
-                decoration: const InputDecoration(
-                  labelText: 'First Name',
-                )),
-            const SizedBox(
-              height: 20,
-            ),
-            TextField(
-                controller: controllerbirthdate,
-                decoration: const InputDecoration(
-                  labelText: 'Last Name',
-                )),
-            const SizedBox(
-              height: 20,
-            ),
-            TextField(
-                controller: controllergrade,
-                keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(
-                  labelText: 'Grade',
-                )),
-            const SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
+    return Column(
+      children: [
+        for (int i = 1; i < 4; i++)
+          Expanded(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                for (int j = 1; j < 4; j++)
                   Expanded(
-                      flex: 2,
-                      child: ElevatedButton(
-                          onPressed: () async {
-                            await userController.updateUser(User(
-                                email: em,
-                                grade: controllergrade.text,
-                                school: controllerschool.text,
-                                birthdate: controllerbirthdate.text));
-                            Get.back();
-                          },
-                          child: const Text("Update")))
-                ],
+                    child: Numeral(
+                      number: (i - 1) * 3 + j,
+                      onKeyPress: () => onInputNumber((i - 1) * 3 + j),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        Expanded(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: ClearButton(
+                  onClearLastInput: onClearLastInput,
+                  onClearAll: onClearAll,
+                ),
               ),
-            )
-          ],
+              Expanded(
+                  child: Numeral(
+                number: 0,
+                onKeyPress: () => onInputNumber(0),
+              )),
+              Expanded(
+                child: SendButton(
+                  sendInput: sendInput,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class Numeral extends StatelessWidget {
+  const Numeral({
+    super.key,
+    required this.number,
+    required this.onKeyPress,
+  });
+
+  final int number;
+  final VoidCallback onKeyPress;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(5),
+      child: OutlinedButton(
+        style: OutlinedButton.styleFrom(
+          backgroundColor: const Color.fromARGB(255, 69, 127, 253),
+          shape: const CircleBorder(),
+        ),
+        onPressed: onKeyPress,
+        child: Text('$number',
+            style: const TextStyle(
+              color: Color.fromARGB(255, 255, 255, 255),
+            )),
+      ),
+    );
+  }
+}
+
+class ClearButton extends StatelessWidget {
+  const ClearButton({
+    super.key,
+    required this.onClearLastInput,
+    required this.onClearAll,
+  });
+
+  final VoidCallback onClearLastInput;
+  final VoidCallback onClearAll;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onLongPress: onClearAll,
+      child: IconButton(
+        onPressed: onClearLastInput,
+        icon: const Icon(
+          Icons.backspace,
+          color: Color.fromARGB(255, 255, 49, 49),
+        ),
+      ),
+    );
+  }
+}
+
+class SendButton extends StatelessWidget {
+  const SendButton({
+    super.key,
+    required this.sendInput,
+  });
+
+  final VoidCallback sendInput;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      child: IconButton(
+        onPressed: sendInput,
+        icon: const Icon(
+          Icons.arrow_circle_right,
+          color: Color.fromARGB(255, 30, 255, 10),
         ),
       ),
     );

@@ -12,7 +12,7 @@ class UserController extends GetxController {
 
   @override
   void onInit() {
-    getUers();
+    // getUers();
     super.onInit();
   }
 

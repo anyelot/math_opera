@@ -29,15 +29,59 @@ class UserDataSource {
     return Future.value(users);
   }
 
-  Future<bool> addUser(User user) async {
-    logInfo("Web service, Adding user");
+  Future<User> getUser(int id) async {
+    User userdata;
+    var request = Uri.parse("https://retoolapi.dev/$apiKey/data/$id")
+        .resolveUri(Uri(queryParameters: {
+      "format": 'json',
+    }));
 
+    var response = await http.get(request);
+
+    if (response.statusCode == 200) {
+      //logInfo(response.body);
+      final data = jsonDecode(response.body);
+
+      userdata = User.fromJson(data);
+    } else {
+      logError("Got error code ${response.statusCode}");
+      return Future.error('Error code ${response.statusCode}');
+    }
+
+    return Future.value(userdata);
+  }
+
+  Future<User> getUserbyquery(String email) async {
+    User userdata;
+    var request = Uri.parse("https://retoolapi.dev/$apiKey/data/")
+        .resolveUri(Uri(queryParameters: {
+      "email": email,
+      "format": 'json',
+    }));
+
+    var response = await http.get(request);
+    if (response.statusCode == 200) {
+      //logInfo(response.body);
+      final data = jsonDecode(response.body)[0];
+
+      userdata = User.fromJson(data);
+    } else {
+      logError("Got error code ${response.statusCode}");
+      return Future.error('Error code ${response.statusCode}');
+    }
+
+    return Future.value(userdata);
+  }
+
+  Future<bool> addUser(Object user) async {
+    logInfo("Web service, Adding user");
+    print(user);
     final response = await http.post(
       Uri.parse("https://retoolapi.dev/$apiKey/data"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(user.toJson()),
+      body: jsonEncode(user),
     );
 
     if (response.statusCode == 201) {
@@ -50,15 +94,15 @@ class UserDataSource {
   }
 
   Future<bool> updateUser(User user) async {
-    final response = await http.put(
+    final response = await http.patch(
       Uri.parse("https://retoolapi.dev/$apiKey/data/${user.id}"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(user.toJson()),
+      body: jsonEncode(user),
     );
 
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       //logInfo(response.body);
       return Future.value(true);
     } else {
@@ -100,26 +144,6 @@ class UserDataSource {
     } else {
       logError("Got error code ${response.statusCode}");
       return Future.error('Error code ${response.statusCode}');
-    }
-  }
-
-  Future<bool> saveScore(Session sesion) async {
-    logInfo("Web service, Adding user");
-
-    final response = await http.post(
-      Uri.parse("https://retoolapi.dev/$apiKey/data"),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(sesion.toJson()),
-    );
-
-    if (response.statusCode == 201) {
-      //logInfo(response.body);
-      return Future.value(true);
-    } else {
-      logError("Got error code ${response.statusCode}");
-      return Future.value(false);
     }
   }
 }

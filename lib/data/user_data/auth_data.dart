@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:loggy/loggy.dart';
 import 'package:http/http.dart' as http;
 
-class AuthenticationDatatasource {
+class AuthenticationDatasource {
   Future<String> login(String baseUrl, String email, String password) async {
     final response = await http.post(
       Uri.parse("$baseUrl/login"),
@@ -26,8 +26,7 @@ class AuthenticationDatatasource {
     }
   }
 
-  Future<bool> signUp(String baseUrl, String email, String password,
-      String school, String birthdate, String grade) async {
+  Future<bool> signUp(String baseUrl, String email, String password) async {
     final response = await http.post(
       Uri.parse("$baseUrl/register"),
       headers: <String, String>{
@@ -35,9 +34,8 @@ class AuthenticationDatatasource {
       },
       body: jsonEncode(<String, String>{
         "username": email,
-        "school": school,
-        "birthdate": birthdate,
-        "grade": grade,
+        "first_name": email,
+        "last_name": email,
         "password": password,
       }),
     );
