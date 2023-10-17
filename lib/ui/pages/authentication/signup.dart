@@ -143,7 +143,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         "school": _schoolController.text,
                       };
                       await _signUp(fromobjc);
-                      hivedata.saveUser2(SomeDataDb2(
+                      await hivedata.saveUser2(SomeDataDb2(
                           email: controllerEmail.text,
                           password: controllerPassword.text,
                           school: _schoolController.text,

@@ -5,12 +5,15 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:math_opera/data/local/localstorage.dart';
 import 'package:math_opera/data/user_data/user_data.dart';
+import 'package:math_opera/db/hive_data.dart';
+import 'package:math_opera/db/some_data_db.dart';
 import 'package:math_opera/domain/model_data/dataset.dart';
 import 'package:math_opera/ui/controller/game_controller.dart';
 import 'package:math_opera/ui/pages/content/home.dart';
 import 'package:math_opera/ui/pages/content/rcontainer.dart';
 
 class CasoDificultad {
+  final HiveData hivedata = const HiveData();
   final sharedPreferences = LocalPreferences();
   late NumberController controller = Get.find();
   final stopwatch = Stopwatch();
@@ -44,8 +47,10 @@ class CasoDificultad {
         email: await sharedPreferences.retrieveData('email'),
         password: await sharedPreferences.retrieveData('password'),
         score: score);
-
+  
     await UserDataSource().updateUser(user);
+    await hivedata.saveUser1(SomeDataDb1(id: user.id!, score: score));
+    
   }
 
   checkOperation() {

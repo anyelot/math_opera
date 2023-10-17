@@ -5,17 +5,14 @@ part 'some_data_db.g.dart';
 class SomeDataDb1 extends HiveObject {
   
   @HiveField(1)
-  int score;
+  int id;
 
   @HiveField(2)
-  int corrects;
-
-  @HiveField(3)
-  int incorrects;
+  int score;
 
   SomeDataDb1({
+    this.id = 0,
     this.score = 0,
-    this.corrects = 0,
-    this.incorrects = 0,
+
   });
 }

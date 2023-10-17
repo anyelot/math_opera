@@ -17,22 +17,19 @@ class SomeDataDb1Adapter extends TypeAdapter<SomeDataDb1> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return SomeDataDb1(
-      score: fields[1] as int,
-      corrects: fields[2] as int,
-      incorrects: fields[3] as int,
+      id: fields[1] as int,
+      score: fields[2] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, SomeDataDb1 obj) {
     writer
-      ..writeByte(3)
-      ..writeByte(1)
-      ..write(obj.score)
       ..writeByte(2)
-      ..write(obj.corrects)
-      ..writeByte(3)
-      ..write(obj.incorrects);
+      ..writeByte(1)
+      ..write(obj.id)
+      ..writeByte(2)
+      ..write(obj.score);
   }
 
   @override
