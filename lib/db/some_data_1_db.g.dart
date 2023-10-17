@@ -1,38 +1,44 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'some_data_db.dart';
+part of 'some_data_1_db.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class SomeDataDb1Adapter extends TypeAdapter<SomeDataDb1> {
+class SomeDataDb2Adapter extends TypeAdapter<SomeDataDb2> {
   @override
-  final int typeId = 0;
+  final int typeId = 1;
 
   @override
-  SomeDataDb1 read(BinaryReader reader) {
+  SomeDataDb2 read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return SomeDataDb1(
-      score: fields[1] as int,
-      corrects: fields[2] as int,
-      incorrects: fields[3] as int,
+    return SomeDataDb2(
+      email: fields[1] as String,
+      password: fields[2] as String,
+      school: fields[3] as String,
+      birthdate: fields[4] as String,
+      grade: fields[5] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, SomeDataDb1 obj) {
+  void write(BinaryWriter writer, SomeDataDb2 obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(5)
       ..writeByte(1)
-      ..write(obj.score)
+      ..write(obj.email)
       ..writeByte(2)
-      ..write(obj.corrects)
+      ..write(obj.password)
       ..writeByte(3)
-      ..write(obj.incorrects);
+      ..write(obj.school)
+      ..writeByte(4)
+      ..write(obj.birthdate)
+      ..writeByte(5)
+      ..write(obj.grade);
   }
 
   @override
@@ -41,7 +47,7 @@ class SomeDataDb1Adapter extends TypeAdapter<SomeDataDb1> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is SomeDataDb1Adapter &&
+      other is SomeDataDb2Adapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

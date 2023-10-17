@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:loggy/loggy.dart';
 import 'package:math_opera/data/user_data/user_data.dart';
+import 'package:math_opera/db/some_data_1_db.dart';
 import 'package:math_opera/db/some_data_db.dart';
 import 'package:math_opera/domain/caso_uso/auth_case.dart';
 import 'package:math_opera/domain/caso_uso/game_case.dart';
@@ -16,7 +17,8 @@ import 'package:math_opera/ui/pages/content/home.dart';
 Future<List<Box>> _openBox() async {
   List<Box> boxList = [];
   await Hive.initFlutter();
-  Hive.registerAdapter(SomeDataDbAdapter());
+  Hive.registerAdapter(SomeDataDb2Adapter());
+  Hive.registerAdapter(SomeDataDb1Adapter());
   boxList.add(await Hive.openBox('someData'));
   return boxList;
 }

@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
 import 'package:loggy/loggy.dart';
-import 'package:math_opera/db/some_data_db.dart';
+import 'package:math_opera/db/some_data_1_db.dart';
 import 'package:math_opera/ui/controller/auth_controller.dart';
 
 import '../../../db/hive_data.dart';
@@ -143,7 +143,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         "school": _schoolController.text,
                       };
                       await _signUp(fromobjc);
-                      hivedata.saveUser(SomeDataDb(
+                      hivedata.saveUser2(SomeDataDb2(
                           email: controllerEmail.text,
                           password: controllerPassword.text,
                           school: _schoolController.text,
