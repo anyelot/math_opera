@@ -19,7 +19,11 @@ class CasoDificultad {
   final stopwatch = Stopwatch();
   int _score = 0;
   int get score => _score;
-  changeScore(int newscore) => _score = newscore;
+  changeScore(int newscore) {
+    _score = newscore;
+    print(newscore);
+  }
+
   generateCase() {
     if (score <= 10) {
       controller.setOp1(Random().nextInt(100));
@@ -39,6 +43,7 @@ class CasoDificultad {
       controller.setOperator("+");
     }
     print((controller.op1 + controller.op2).round());
+    print(score);
   }
 
   updateuserafter(score) async {
@@ -47,14 +52,13 @@ class CasoDificultad {
         email: await sharedPreferences.retrieveData('email'),
         password: await sharedPreferences.retrieveData('password'),
         score: score);
-  
+
     await UserDataSource().updateUser(user);
     await hivedata.saveUser1(SomeDataDb1(id: user.id!, score: score));
     final box = Hive.box('user1');
-  for (var i = 0; i < box.length; i++) {
-    print('Registro $i: ${box.getAt(i)}');
-  }
-    
+    for (var i = 0; i < box.length; i++) {
+      print('Registro $i: ${box.getAt(i)}');
+    }
   }
 
   checkOperation() {

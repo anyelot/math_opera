@@ -63,7 +63,7 @@ class _SignUpPageState extends State<SignUpPage> {
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               const Text(
-                "sign up with your credentials",
+                "Registre los siguientes datos",
                 style: TextStyle(fontSize: 20),
               ),
               const SizedBox(
@@ -72,12 +72,12 @@ class _SignUpPageState extends State<SignUpPage> {
               TextFormField(
                 key: const Key('TextFormFieldname'),
                 controller: controllerName,
-                decoration: const InputDecoration(labelText: 'Name'),
+                decoration: const InputDecoration(labelText: 'Nombre'),
               ),
               TextFormField(
                 key: const Key('TextFormFieldlastname'),
                 controller: controllerLastName,
-                decoration: const InputDecoration(labelText: 'LastName'),
+                decoration: const InputDecoration(labelText: 'Apellido'),
               ),
               TextFormField(
                 key: const Key('TextFormFieldemail'),
@@ -87,7 +87,7 @@ class _SignUpPageState extends State<SignUpPage> {
               TextFormField(
                 key: const Key('TextFormFieldpassword'),
                 controller: controllerPassword,
-                decoration: const InputDecoration(labelText: 'Password'),
+                decoration: const InputDecoration(labelText: 'Contraseña'),
               ),
               TextFormField(
                 key: const Key('TextFormFieldBirthday'),
@@ -95,7 +95,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 //editing controller of this TextField
                 decoration: const InputDecoration(
                     icon: Icon(Icons.calendar_today), //icon of text field
-                    labelText: "Enter Birth date" //label text of field
+                    labelText: "Fecha Nacimiento" //label text of field
                     ),
                 readOnly: true,
                 //set it true, so that user will not able to edit text
@@ -118,12 +118,12 @@ class _SignUpPageState extends State<SignUpPage> {
               TextFormField(
                 key: const Key('TextFormFieldAge'),
                 controller: _gradeController,
-                decoration: const InputDecoration(labelText: 'Grade'),
+                decoration: const InputDecoration(labelText: 'Curso'),
               ),
               TextFormField(
                 key: const Key('TextFormFieldSchool'),
                 controller: _schoolController,
-                decoration: const InputDecoration(labelText: 'School'),
+                decoration: const InputDecoration(labelText: 'Instituto'),
               ),
               Container(
                 margin: const EdgeInsets.all(20),
@@ -150,14 +150,29 @@ class _SignUpPageState extends State<SignUpPage> {
                           school: _schoolController.text,
                           birthdate: dateInput.text,
                           grade: _gradeController.text));
-                          final box = Hive.box('user2');
-                          for (var i = 0; i < box.length; i++) {
-                            print('Registro $i: ${box.getAt(i)}');
-                          }
+                      final box = Hive.box('user2');
+                      for (var i = 0; i < box.length; i++) {
+                        print('Registro $i: ${box.getAt(i)}');
+                      }
                       Get.back();
                     }
                   },
-                  child: const Text('Submit'),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(
+                      Colors.blue[700],
+                    ),
+                    padding: const MaterialStatePropertyAll(
+                      EdgeInsets.fromLTRB(30, 15, 30, 15),
+                    ),
+                  ),
+                  child: const Text(
+                    'Registrate',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               )
             ]),

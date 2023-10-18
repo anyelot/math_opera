@@ -50,8 +50,7 @@ class _TestPagestate extends State<TestPage> {
   void sendInput() {
     if (cont <= 5) {
       if (controller.result != "") {
-        casehandler.checkOperation(controller.op1, controller.op2,
-            controller.result, controller.operator, cont);
+        casehandler.checkOperation();
         cont++;
       } else {
         controller.setinfotext("You have to write something...");

@@ -52,7 +52,17 @@ class _LoginPageState extends State<LoginPage> {
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               const Text(
-                "Login with your credentials",
+                "Math Operations",
+                style: TextStyle(
+                  fontSize: 50,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              const Text(
+                "Ingrese sus datos",
                 style: TextStyle(fontSize: 20),
               ),
               const SizedBox(
@@ -66,7 +76,10 @@ class _LoginPageState extends State<LoginPage> {
               TextFormField(
                 key: const Key('TextFormFieldpassword'),
                 controller: controllerPassword,
-                decoration: const InputDecoration(labelText: 'Password'),
+                decoration: const InputDecoration(labelText: 'Contraseña'),
+              ),
+              const SizedBox(
+                height: 20,
               ),
               Container(
                 margin: const EdgeInsets.all(20),
@@ -81,19 +94,34 @@ class _LoginPageState extends State<LoginPage> {
                           controllerEmail.text, controllerPassword.text);
                     }
                   },
-                  child: const Text('Submit'),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(
+                      Colors.blue[700],
+                    ),
+                    padding: const MaterialStatePropertyAll(
+                      EdgeInsets.fromLTRB(30, 15, 30, 15),
+                    ),
+                  ),
+                  child: const Text(
+                    'Ingreso',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
               Container(
-                margin: const EdgeInsets.all(20),
-                child: ElevatedButton(
+                margin: const EdgeInsets.all(10),
+                child: TextButton(
                   key: const Key('Buttoncreateaccount'),
                   onPressed: () {
                     Get.to(const SignUpPage(
                       key: Key('SignUpPage'),
                     ));
                   },
-                  child: const Text('Sign Up'),
+                  child: const Text('Registrate'),
                 ),
               )
             ]),

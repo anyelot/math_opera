@@ -27,7 +27,12 @@ class HomePage extends StatelessWidget {
     CasoDificultad casehandler = Get.find();
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Math Operations"),
+        title: const Text("Math Operations",
+            style: TextStyle(
+              color: Color.fromARGB(255, 57, 24, 204),
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+            )),
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
@@ -52,7 +57,22 @@ class HomePage extends StatelessWidget {
                 }
                 handler.casegenerator();
               },
-              child: const Text("Begin test"))),
+              style: ButtonStyle(
+                backgroundColor: MaterialStatePropertyAll(
+                  Colors.blue[700],
+                ),
+                padding: const MaterialStatePropertyAll(
+                  EdgeInsets.fromLTRB(30, 15, 30, 15),
+                ),
+              ),
+              child: const Text(
+                "Iniciar",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ))),
     );
   }
 }

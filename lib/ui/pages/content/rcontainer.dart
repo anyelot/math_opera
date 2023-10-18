@@ -46,10 +46,21 @@ class _TestPagestate extends State<TestPage> {
   }
 
   Dificultad handler = Get.find();
+  int cont = 0;
   void sendInput() {
-    casehandler.checkOperation();
-    controller.resetResult();
-    clearAll();
+    if (cont <= 5) {
+      if (controller.result != "") {
+        casehandler.checkOperation();
+        cont++;
+      } else {
+        //controller.setinfotext("You have to write something...");
+      }
+      controller.resetResult();
+      clearAll();
+    } else {
+      cont = 0;
+      Get.offNamed("/Home");
+    }
   }
 
   void clearAll() {
