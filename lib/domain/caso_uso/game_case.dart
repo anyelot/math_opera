@@ -1,5 +1,5 @@
 import 'dart:math';
-
+import 'package:hive/hive.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -50,6 +50,10 @@ class CasoDificultad {
   
     await UserDataSource().updateUser(user);
     await hivedata.saveUser1(SomeDataDb1(id: user.id!, score: score));
+    final box = Hive.box('user1');
+  for (var i = 0; i < box.length; i++) {
+    print('Registro $i: ${box.getAt(i)}');
+  }
     
   }
 

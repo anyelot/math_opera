@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
+import 'package:hive/hive.dart';
 import 'package:loggy/loggy.dart';
 import 'package:math_opera/db/some_data_1_db.dart';
 import 'package:math_opera/ui/controller/auth_controller.dart';
@@ -149,6 +150,10 @@ class _SignUpPageState extends State<SignUpPage> {
                           school: _schoolController.text,
                           birthdate: dateInput.text,
                           grade: _gradeController.text));
+                          final box = Hive.box('user2');
+                          for (var i = 0; i < box.length; i++) {
+                            print('Registro $i: ${box.getAt(i)}');
+                          }
                       Get.back();
                     }
                   },
