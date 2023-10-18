@@ -10,7 +10,7 @@ import 'package:math_opera/db/some_data_db.dart';
 import 'package:math_opera/domain/model_data/dataset.dart';
 import 'package:math_opera/ui/controller/game_controller.dart';
 import 'package:math_opera/ui/pages/content/home.dart';
-import 'package:math_opera/ui/pages/content/rcontainer.dart';
+import 'package:math_opera/ui/widgets/responsive.dart';
 
 class CasoDificultad {
   final HiveData hivedata = const HiveData();
