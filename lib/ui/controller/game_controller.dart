@@ -6,6 +6,7 @@ class NumberController extends GetxController {
   final _operator = "+".obs;
   final _result = "".obs;
   int cont = 0;
+  int score = 0;
 
   int get op1 => _op1.value;
   int get op2 => _op2.value;

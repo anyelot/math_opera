@@ -72,7 +72,34 @@ class _TestPagestate extends State<TestPage> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       body: Column(
-        children: <Widget>[
+        children: [
+          const Expanded(
+              child: Row(
+            children: [
+              SizedBox(
+                width: 50,
+              ),
+              Expanded(
+                child: Text("Puntaje = "),
+              ),
+              /*Expanded(
+                  child: Obx(() => const Text("",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      )))),*/
+              SizedBox(
+                width: 150,
+              ),
+              Expanded(
+                child: Text("Dificultad ="),
+              ),
+              SizedBox(
+                width: 50,
+              ),
+            ],
+          )),
           Expanded(
               child: Center(
             child: Padding(
@@ -81,22 +108,33 @@ class _TestPagestate extends State<TestPage> {
                     child: Row(
                   children: [
                     const SizedBox(
-                      width: 350,
+                      width: 150,
                     ),
                     Expanded(
-                        child: Obx(() => Text(controller.op1.toString(),
-                            textAlign: TextAlign.right,
-                            style: const TextStyle(fontSize: 25)))),
+                        child: Obx(
+                      () => Text(controller.op1.toString(),
+                          textAlign: TextAlign.right,
+                          style: const TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                          )),
+                    )),
                     Expanded(
                         child: Obx(() => Text(controller.operator.toString(),
                             textAlign: TextAlign.center,
-                            style: const TextStyle(fontSize: 25)))),
+                            style: const TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                            )))),
                     Expanded(
                         child: Obx(() => Text(controller.op2.toString(),
                             textAlign: TextAlign.left,
-                            style: const TextStyle(fontSize: 25)))),
+                            style: const TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                            )))),
                     const SizedBox(
-                      width: 350,
+                      width: 150,
                     ),
                   ],
                 ))),
