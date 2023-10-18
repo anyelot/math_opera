@@ -87,7 +87,15 @@ class _SignUpPageState extends State<SignUpPage> {
               TextFormField(
                 key: const Key('TextFormFieldpassword'),
                 controller: controllerPassword,
-                decoration: const InputDecoration(labelText: 'Contraseña'),
+                decoration: const InputDecoration(
+                  labelText: 'Contraseña',
+                  suffixIcon: Icon(
+                    Icons
+                        .lock, // Icono de un candado para representar una contraseña
+                  ),
+                ),
+                obscureText:
+                    true, // Esta línea hace que el texto sea oculto (como una contraseña)
               ),
               TextFormField(
                 key: const Key('TextFormFieldBirthday'),

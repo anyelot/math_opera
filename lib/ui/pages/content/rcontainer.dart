@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:math_opera/domain/caso_uso/game_case.dart';
 import 'package:math_opera/ui/controller/game_controller.dart';
-import 'package:math_opera/ui/pages/content/detail.dart';
+import 'package:math_opera/ui/pages/content/game.dart';
 
 class TestPage extends StatefulWidget {
   const TestPage({
@@ -59,7 +59,7 @@ class _TestPagestate extends State<TestPage> {
       clearAll();
     } else {
       cont = 0;
-      Get.offNamed("/Home");
+      Get.offNamed("/HomePage");
     }
   }
 
@@ -76,22 +76,28 @@ class _TestPagestate extends State<TestPage> {
           Expanded(
               child: Center(
             child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                 child: SizedBox(
                     child: Row(
                   children: [
+                    const SizedBox(
+                      width: 350,
+                    ),
                     Expanded(
                         child: Obx(() => Text(controller.op1.toString(),
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(fontSize: 50)))),
+                            textAlign: TextAlign.right,
+                            style: const TextStyle(fontSize: 25)))),
                     Expanded(
                         child: Obx(() => Text(controller.operator.toString(),
                             textAlign: TextAlign.center,
-                            style: const TextStyle(fontSize: 50)))),
+                            style: const TextStyle(fontSize: 25)))),
                     Expanded(
                         child: Obx(() => Text(controller.op2.toString(),
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(fontSize: 50)))),
+                            textAlign: TextAlign.left,
+                            style: const TextStyle(fontSize: 25)))),
+                    const SizedBox(
+                      width: 350,
+                    ),
                   ],
                 ))),
           )),

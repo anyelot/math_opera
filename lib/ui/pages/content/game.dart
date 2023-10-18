@@ -74,16 +74,21 @@ class Numeral extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(5),
+      margin: const EdgeInsets.all(0),
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
-          backgroundColor: const Color.fromARGB(255, 69, 127, 253),
-          shape: const CircleBorder(),
+          backgroundColor: Color.fromARGB(255, 255, 255, 255),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(
+                10), // Puedes ajustar el valor de "0" para controlar la esquina del botón
+          ),
         ),
         onPressed: onKeyPress,
         child: Text('$number',
             style: const TextStyle(
-              color: Color.fromARGB(255, 255, 255, 255),
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+              color: Color.fromARGB(255, 23, 107, 15),
             )),
       ),
     );
@@ -104,11 +109,13 @@ class ClearButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onLongPress: onClearAll,
-      child: IconButton(
+      child: TextButton(
         onPressed: onClearLastInput,
-        icon: const Icon(
-          Icons.backspace,
-          color: Color.fromARGB(255, 255, 49, 49),
+        style: TextButton.styleFrom(
+          foregroundColor: Color.fromARGB(255, 222, 114, 37),
+        ),
+        child: const Text(
+          'CE', // Cambia este texto según tus necesidades
         ),
       ),
     );
@@ -126,11 +133,13 @@ class SendButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      child: IconButton(
+      child: TextButton(
         onPressed: sendInput,
-        icon: const Icon(
-          Icons.arrow_circle_right,
-          color: Color.fromARGB(255, 30, 255, 10),
+        style: TextButton.styleFrom(
+          foregroundColor: Color.fromARGB(255, 46, 37, 222),
+        ),
+        child: const Text(
+          '=', // Cambia este texto según tus necesidades
         ),
       ),
     );
